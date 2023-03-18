@@ -1,0 +1,10 @@
+
+# Godot-specific ignores
+.import/
+
+# Mono-specific ignores
+.mono/
+data_*/
+.idea/
+*.DotSettings.user
+mono_crash*.json

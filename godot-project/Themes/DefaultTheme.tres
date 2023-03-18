@@ -1,0 +1,58 @@
+[gd_resource type="Theme" load_steps=18 format=2]
+
+[ext_resource path="res://Fonts/Lato-Regular.tres" type="DynamicFont" id=1]
+
+[sub_resource type="StyleBoxFlat" id=5]
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.203703, 0.1978, 0.23, 1 )
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.2175, 0.2175, 0.25, 1 )
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.25098, 0.243137, 0.282353, 1 )
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.239216, 0.227451, 0.270588, 1 )
+
+[sub_resource type="StyleBoxEmpty" id=6]
+
+[sub_resource type="StyleBoxEmpty" id=7]
+
+[sub_resource type="StyleBoxEmpty" id=8]
+
+[sub_resource type="StyleBoxEmpty" id=9]
+
+[sub_resource type="StyleBoxEmpty" id=10]
+
+[sub_resource type="StyleBoxEmpty" id=11]
+
+[sub_resource type="StyleBoxEmpty" id=12]
+
+[sub_resource type="StyleBoxEmpty" id=13]
+
+[sub_resource type="StyleBoxEmpty" id=14]
+
+[sub_resource type="StyleBoxEmpty" id=15]
+
+[sub_resource type="StyleBoxEmpty" id=16]
+
+[resource]
+default_font = ExtResource( 1 )
+Button/styles/disabled = SubResource( 5 )
+Button/styles/focus = SubResource( 4 )
+Button/styles/hover = SubResource( 3 )
+Button/styles/normal = SubResource( 2 )
+Button/styles/pressed = SubResource( 1 )
+CheckBox/styles/disabled = SubResource( 6 )
+CheckBox/styles/focus = SubResource( 7 )
+CheckBox/styles/hover = SubResource( 8 )
+CheckBox/styles/hover_pressed = SubResource( 9 )
+CheckBox/styles/normal = SubResource( 10 )
+CheckBox/styles/pressed = SubResource( 11 )
+MenuButton/styles/disabled = SubResource( 12 )
+MenuButton/styles/focus = SubResource( 13 )
+MenuButton/styles/hover = SubResource( 14 )
+MenuButton/styles/normal = SubResource( 15 )
+MenuButton/styles/pressed = SubResource( 16 )
