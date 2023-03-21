@@ -34,7 +34,7 @@ namespace GodotLauncher
 		private const string projectsFileName = "projects.json";
 
 		private Downloader installersDownloader;
-		private const string installersJson = "https://raw.githubusercontent.com/NathanWarden/godot-launcher-installers/master/installers.json";
+		private const string installersJson = "https://raw.githubusercontent.com/NathanWarden/ready-to-launch/master/godot-project/Data/installers.json";
 		private const string lastInstallerList = "last-installers.json";
 
 		private List<ProjectEntryData> projectEntries = new List<ProjectEntryData>();
