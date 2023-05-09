@@ -1,5 +1,39 @@
 [
   {
+    "version": "4.1-dev2",
+    "mono": true,
+    "preRelease": true,
+    "linux": {
+      "url": "https://downloads.tuxfamily.org/godotengine/4.1/dev2/mono/Godot_v4.1-dev2_mono_linux_x86_64.zip",
+      "executableName": "Godot_v4.1-dev2_mono_linux_x86_64/Godot_v4.1-dev2_mono_linux.x86_64"
+    },
+    "mac": {
+      "url": "https://downloads.tuxfamily.org/godotengine/4.1/dev2/mono/Godot_v4.1-dev2_mono_macos.universal.zip",
+      "executableName": "Godot_mono.app/Contents/MacOS/Godot"
+    },
+    "win": {
+      "url": "https://downloads.tuxfamily.org/godotengine/4.1/dev2/mono/Godot_v4.1-dev2_mono_win64.zip",
+      "executableName": "Godot_v4.1-dev2_mono_win64/Godot_v4.1-dev2_mono_win64.exe"
+    }
+  },
+  {
+    "version": "4.1-dev2",
+    "mono": false,
+    "preRelease": true,
+    "linux": {
+      "url": "https://downloads.tuxfamily.org/godotengine/4.1/dev2/Godot_v4.1-dev2_linux.x86_64.zip",
+      "executableName": "Godot_v4.1-dev2_linux.x86_64"
+    },
+    "mac": {
+      "url": "https://downloads.tuxfamily.org/godotengine/4.1/dev2/Godot_v4.1-dev2_macos.universal.zip",
+      "executableName": "Godot.app/Contents/MacOS/Godot"
+    },
+    "win": {
+      "url": "https://downloads.tuxfamily.org/godotengine/4.1/dev2/Godot_v4.1-dev2_win64.exe.zip",
+      "executableName": "Godot_v4.1-dev2_win64.exe"
+    }
+  },
+  {
     "version": "4.1-dev1",
     "mono": true,
     "preRelease": true,
