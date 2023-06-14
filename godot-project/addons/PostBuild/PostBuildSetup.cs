@@ -2,7 +2,7 @@
 using Godot;
 
 [Tool]
-public class PostBuildSetup : EditorPlugin
+public partial class PostBuildSetup : EditorPlugin
 {
 	private PostBuild buildPlugin;
 

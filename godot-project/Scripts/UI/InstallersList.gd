@@ -76,5 +76,5 @@ func update_ui_elements(version:String, buildType:String, installerExists:bool):
 	var key = version + buildType
 	if !nodesDict.has(key):
 		return
-	nodesDict[key].get_node("Downloaded").pressed = installerExists
+	nodesDict[key].get_node("Downloaded").button_pressed = installerExists
 	nodesDict[key].get_node("KebabMenu").visible = installerExists

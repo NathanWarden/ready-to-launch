@@ -1,5 +1,6 @@
 
 # Godot-specific ignores
+.godot/
 .import/
 
 # Mono-specific ignores
@@ -8,3 +9,6 @@ data_*/
 .idea/
 *.DotSettings.user
 mono_crash*.json
+
+# Misc ignores
+*.old

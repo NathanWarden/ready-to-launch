@@ -19,7 +19,7 @@ func _ready():
 	if signalConnected:
 		return
 
-	var err = popup.connect("index_pressed", self, "_onIndexPressed")
+	var err = popup.index_pressed.connect(_onIndexPressed)
 	if err != OK:
 		print("Connection failed!")
 		return

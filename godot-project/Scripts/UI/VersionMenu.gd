@@ -1,18 +1,18 @@
 extends MenuButton
 
-var keys:PoolStringArray
-var names:PoolStringArray
+var keys:PackedStringArray
+var names:PackedStringArray
 var signalConnected:bool = false
 
-func _setup(versionKey:String, installerKeys:PoolStringArray, installerNames:PoolStringArray):
+func _setup(versionKey:String, installerKeys:PackedStringArray, installerNames:PackedStringArray):
 	var popup:PopupMenu = get_popup()
 
 	keys = installerKeys
 	names = installerNames
 
 	popup.clear()
-	for name in installerNames:
-		popup.add_item(name)
+	for installerName in installerNames:
+		popup.add_item(installerName)
 
 	if popup.get_item_count() > 0:
 		var selectedItem = 0
@@ -29,7 +29,7 @@ func _setup(versionKey:String, installerKeys:PoolStringArray, installerNames:Poo
 	if signalConnected:
 		return
 
-	var err = popup.connect("index_pressed", self, "_onIndexPressed")
+	var err = popup.index_pressed.connect(_onIndexPressed)
 	if err != OK:
 		print("Connection failed!")
 		return

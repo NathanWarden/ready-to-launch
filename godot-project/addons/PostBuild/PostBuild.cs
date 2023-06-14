@@ -5,14 +5,14 @@ using Path = System.IO.Path;
 
 
 [Tool]
-public class PostBuild : EditorExportPlugin
+public partial class PostBuild : EditorExportPlugin
 {
 	private string[] features;
 	private bool isDebug;
 	private string path;
 
 
-	public override void _ExportBegin(string[] features, bool isDebug, string path, int flags)
+	public override void _ExportBegin(string[] features, bool isDebug, string path, uint flags)
 	{
 		this.features = features;
 		this.isDebug = isDebug;

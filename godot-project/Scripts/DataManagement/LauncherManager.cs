@@ -11,7 +11,7 @@ using File = System.IO.File;
 
 namespace GodotLauncher
 {
-	public class LauncherManager : Control
+	public partial class LauncherManager : Control
 	{
 		[Export] private bool useLocalData;
 
@@ -27,36 +27,35 @@ namespace GodotLauncher
 		private Node projectsEntriesNode;
 		private Node installersEntriesNode;
 		private Control infoNode;
-		private float infoNodeTimer;
+		private double infoNodeTimer;
 		private bool showExtracting;
 
-		private const string configFileName = "config.json";
-		private const string projectsFileName = "projects.json";
+		private const string ConfigFileName = "config.json";
+		private const string ProjectsFileName = "projects.json";
 
 		private Downloader installersDownloader;
-		private const string installersJson = "https://raw.githubusercontent.com/NathanWarden/ready-to-launch/master/godot-project/Data/installers.json";
-		private const string lastInstallerList = "last-installers.json";
+		private const string InstallersJson = "https://raw.githubusercontent.com/NathanWarden/ready-to-launch/master/godot-project/Data/installers.json";
+		private const string LastInstallerList = "last-installers.json";
 
-		private List<ProjectEntryData> projectEntries = new List<ProjectEntryData>();
-		private Dictionary<string, InstallerEntryData> installerEntries = new Dictionary<string, InstallerEntryData>();
-		private Dictionary<string, InstallerEntryData> previousInstallers = new Dictionary<string, InstallerEntryData>();
-		private Dictionary<string, Downloader> downloaders = new Dictionary<string, Downloader>();
+		private List<ProjectEntryData> projectEntries = new ();
+		private Dictionary<string, InstallerEntryData> installerEntries = new ();
+		private Dictionary<string, InstallerEntryData> previousInstallers = new ();
+		private Dictionary<string, Downloader> downloaders = new ();
 
 		private Config config;
 
 
 		public override void _Ready()
 		{
-			OS.SetWindowTitle("Ready To Launch (Alpha)");
-
-			GetTree().Connect("files_dropped", this, nameof(_onFilesDropped));
+			GetWindow().Title = "Ready To Launch (Alpha)";
+			GetWindow().FilesDropped += _onFilesDropped;
 
 			DataPaths.CreateInstallationDirectory();
 
-			var configJson = DataPaths.ReadFile(configFileName, "{}");
+			var configJson = DataPaths.ReadFile(ConfigFileName, "{}");
 			config = DataBuilder.LoadConfigFromJson(configJson);
 
-			var projectsJson = DataPaths.ReadFile(projectsFileName, "[]");
+			var projectsJson = DataPaths.ReadFile(ProjectsFileName, "[]");
 			projectEntries = DataBuilder.LoadProjectListFromJson(projectsJson);
 
 			fileDialog = GetNode<FileDialog>("FileDialog");
@@ -74,16 +73,16 @@ namespace GodotLauncher
 			}
 			else
 			{
-				var json = DataPaths.ReadFile(lastInstallerList);
+				var json = DataPaths.ReadFile(LastInstallerList);
 				installerEntries = DataBuilder.LoadInstallerData(json);
 				BuildLists(false);
 
-				installersDownloader = new Downloader(installersJson);
+				installersDownloader = new Downloader(InstallersJson, this);
 				installersDownloader.Start();
 			}
 		}
 
-		public override void _Process(float delta)
+		public override void _Process(double delta)
 		{
 			if (CheckForQuit()) return;
 
@@ -97,7 +96,7 @@ namespace GodotLauncher
 			if (installersDownloader != null && installersDownloader.IsDone)
 			{
 				// If the downloader failed, use the last downloaded json data
-				var previousJson = DataPaths.ReadFile(lastInstallerList);
+				var previousJson = DataPaths.ReadFile(LastInstallerList);
 				if (string.IsNullOrEmpty(previousJson))
 				{
 					// If that doesn't exist, use the builtin one
@@ -105,7 +104,7 @@ namespace GodotLauncher
 				}
 
 				var json = installersDownloader.HasError ? previousJson : installersDownloader.ReadText();
-				DataPaths.WriteFile(lastInstallerList, json);
+				DataPaths.WriteFile(LastInstallerList, json);
 
 				installerEntries = DataBuilder.LoadInstallerData(json);
 				previousInstallers = DataBuilder.LoadInstallerData(previousJson);
@@ -122,7 +121,12 @@ namespace GodotLauncher
 				var entry = installerEntries[key];
 
 				if (downloader == null) continue;
-				if (!downloader.IsDone) continue;
+				if (!downloader.IsDone)
+				{
+					infoNode.Call("show_message", "Downloading Godot " + entry.version + $" ({entry.BuildType}) ...\n"
+					                              + downloader.SizeInMb.ToString("F2") + " MB");
+					continue;
+				}
 
 				if (!showExtracting)
 				{
@@ -186,10 +190,10 @@ namespace GodotLauncher
 			monoToggle = rootNode.GetNode<CheckBox>("MonoToggle");
 			preReleaseToggle = rootNode.GetNode<CheckBox>("PreReleaseToggle");
 
-			installedOnlyToggle.Pressed = config.installedOnlyToggled;
-			classicToggle.Pressed = config.classicToggled;
-			monoToggle.Pressed = config.monoToggled;
-			preReleaseToggle.Pressed = config.preReleaseToggled;
+			installedOnlyToggle.ButtonPressed = config.installedOnlyToggled;
+			classicToggle.ButtonPressed = config.classicToggled;
+			monoToggle.ButtonPressed = config.monoToggled;
+			preReleaseToggle.ButtonPressed = config.preReleaseToggled;
 		}
 
 
@@ -329,7 +333,7 @@ namespace GodotLauncher
 		}
 
 
-		void _onFilesDropped(string[] files, int screen)
+		void _onFilesDropped(string[] files)
 		{
 			for (int i = 0; i < files.Length; i++)
 			{
@@ -358,14 +362,14 @@ namespace GodotLauncher
 		void SaveConfig()
 		{
 			var json = DataBuilder.GetConfigJson(config);
-			DataPaths.WriteFile(configFileName, json);
+			DataPaths.WriteFile(ConfigFileName, json);
 		}
 
 
 		void SaveProjectsList()
 		{
 			var json = DataBuilder.GetProjectListJson(projectEntries);
-			DataPaths.WriteFile(projectsFileName, json);
+			DataPaths.WriteFile(ProjectsFileName, json);
 		}
 
 
@@ -413,7 +417,7 @@ namespace GodotLauncher
 
 					var additionalFlags = run ? "" : "-e";
 					DataPaths.LaunchGodot(entry, additionalFlags + " --path \"" + path + "\"");
-					OS.WindowMinimized = config.minimizeOnLaunch;
+					//OS.WindowMinimized = config.minimizeOnLaunch;
 					return;
 				}
 			}
@@ -468,13 +472,11 @@ namespace GodotLauncher
 		{
 			var installerEntry = installerEntries[key];
 
-			if (!LaunchInstaller(installerEntry) && !downloaders.ContainsKey(key))
-			{
-				var entry = installerEntries[key];
-				downloaders[key] = new Downloader(entry.Url);
-				downloaders[key].Start();
-				infoNode.Call("show_message", "Downloading Godot " + installerEntry.version + $" ({installerEntry.BuildType}) ...");
-			}
+			if (LaunchInstaller(installerEntry) || downloaders.ContainsKey(key)) return;
+			var entry = installerEntries[key];
+			downloaders[key] = new Downloader(entry.Url, this);
+			downloaders[key].Start();
+			infoNode.Call("show_message", "Downloading Godot " + installerEntry.version + $" ({installerEntry.BuildType}) ...");
 		}
 
 
@@ -484,7 +486,7 @@ namespace GodotLauncher
 			if (installerExists)
 			{
 				DataPaths.LaunchGodot(installerEntry);
-				OS.WindowMinimized = config.minimizeOnLaunch;
+				//OS.WindowMinimized = config.minimizeOnLaunch;
 				return true;
 			}
 
@@ -543,7 +545,7 @@ namespace GodotLauncher
 			{
 				if (DataPaths.ExecutableExists(entry) || string.IsNullOrEmpty(entry.Url)) continue;
 				var key = entry.VersionKey;
-				downloaders[key] = new Downloader(entry.Url);
+				downloaders[key] = new Downloader(entry.Url, this);
 				downloaders[key].Start();
 			}
 		}

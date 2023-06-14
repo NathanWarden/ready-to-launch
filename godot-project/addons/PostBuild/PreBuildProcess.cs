@@ -1,9 +1,9 @@
 using Godot;
 
-public class PreBuildProcess : SceneTree
+public partial class PreBuildProcess : SceneTree
 {
-	const string configPath = "res://export_presets.cfg";
-	const string androidConfigSection = "preset.4.options";
+	const string ConfigPath = "res://export_presets.cfg";
+	const string AndroidConfigSection = "preset.4.options";
 
 
 	public override void _Initialize()
@@ -37,9 +37,9 @@ public class PreBuildProcess : SceneTree
 		buildData.Save();
 
 		var cfg = new ConfigFile();
-		cfg.Load(configPath);
-		cfg.SetValue(androidConfigSection, "version/code", buildData.buildNumber);
-		cfg.Save(configPath);
+		cfg.Load(ConfigPath);
+		cfg.SetValue(AndroidConfigSection, "version/code", buildData.buildNumber);
+		cfg.Save(ConfigPath);
 		GD.Print("Build with code: " + buildData.buildNumber);
 	}
 }

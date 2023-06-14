@@ -31,13 +31,13 @@ func _new_installer_available(version:String, buildType:String):
 	label.text += "New installer available: " + version + " (" + buildType + ")"
 
 
-func _add_project_button(path:String, version:String, buildType:String, favorite:bool, installerKeys:PoolStringArray, installerNames:PoolStringArray):
+func _add_project_button(path:String, version:String, buildType:String, favorite:bool, installerKeys:PackedStringArray, installerNames:PackedStringArray):
 	var newEntry = entry.duplicate()
 	self.add_child(newEntry)
 	newEntry.visible = true
 	newEntry.get_node("Label").text = get_adjusted_path(path)
 	newEntry.get_node("ProjectButton").set_data(path)
-	newEntry.get_node("ProjectButton").hint_tooltip = path
+	newEntry.get_node("ProjectButton").tooltip_text = path
 	var key = path
 	nodesDict[key] = newEntry
 	nodesDict[key].get_node("VersionMenu").call("_setup", version+buildType, installerKeys, installerNames)
@@ -57,5 +57,5 @@ func get_adjusted_path(path:String):
 
 func update_ui_elements(path:String, favorite:bool):
 	var key = path
-	nodesDict[key].get_node("Favorite").pressed = favorite
+	nodesDict[key].get_node("Favorite").button_pressed = favorite
 	nodesDict[key].get_node("Favorite").visible = false

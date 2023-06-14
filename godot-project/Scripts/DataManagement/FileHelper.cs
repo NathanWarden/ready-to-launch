@@ -52,9 +52,8 @@ public static class FileHelper
 
 	public static string ReadAllText(string path)
 	{
-		var file = new File();
-		file.Open(path, File.ModeFlags.Read);
-		var len = file.GetLen();
+		var file = FileAccess.Open(path, FileAccess.ModeFlags.Read);
+		var len = file.GetLength();
 		var data = file.GetBuffer((int)len);
 		var json = Encoding.UTF8.GetString(data);
 		file.Close();
@@ -65,8 +64,7 @@ public static class FileHelper
 
 	public static void WriteAllText(string path, string json)
 	{
-		var file = new File();
-		file.Open(path, File.ModeFlags.Write);
+		var file = FileAccess.Open(path, FileAccess.ModeFlags.Write);
 		file.StoreString(json);
 		file.Close();
 	}
@@ -74,8 +72,7 @@ public static class FileHelper
 
 	public static bool FileExists(string path)
 	{
-		var file = new File();
-		return file.FileExists(path);
+		return FileAccess.FileExists(path);
 	}
 
 
@@ -105,12 +102,11 @@ public static class FileHelper
 
 	private static void CreateDirectoryForUser(string directory)
 	{
-		var dir = new Directory();
 		var path = Path.Combine(BasePath, directory);
 
-		if (!dir.DirExists(path))
+		if (!DirAccess.DirExistsAbsolute(path))
 		{
-			dir.MakeDirRecursive(path);
+			DirAccess.MakeDirRecursiveAbsolute(path);
 		}
 	}
 }
