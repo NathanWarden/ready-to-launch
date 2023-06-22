@@ -131,13 +131,11 @@ namespace GodotLauncher
 												  | FileAccessPermissions.OtherExecute;
 			}
 
-			using(var process = new System.Diagnostics.Process())
-			{
-				process.StartInfo.FileName = path;
-				process.StartInfo.WorkingDirectory = BasePath;
-				process.StartInfo.Arguments = arguments;
-				process.Start();
-			}
+			using var process = new System.Diagnostics.Process();
+			process.StartInfo.FileName = path;
+			process.StartInfo.WorkingDirectory = BasePath;
+			process.StartInfo.Arguments = arguments;
+			process.Start();
 		}
 
 
