@@ -365,6 +365,13 @@ custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 focus_mode = 2
 text = "Platform"
+item_count = 3
+popup/item_0/text = "Windows"
+popup/item_0/id = 0
+popup/item_1/text = "OSX"
+popup/item_1/id = 1
+popup/item_2/text = "X11"
+popup/item_2/id = 2
 script = SubResource("1")
 
 [node name="DownloadAll" type="Button" parent="InstallersPanel/HBoxContainer"]
@@ -485,8 +492,6 @@ text = "Pre-Release"
 [node name="Info" parent="." instance=ExtResource("8")]
 visible = false
 layout_mode = 1
-grow_horizontal = 2
-grow_vertical = 2
 
 [node name="FileDialog" type="FileDialog" parent="."]
 initial_position = 1
