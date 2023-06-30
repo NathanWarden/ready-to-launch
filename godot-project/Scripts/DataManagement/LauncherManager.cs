@@ -124,7 +124,7 @@ namespace GodotLauncher
 				if (!downloader.IsDone)
 				{
 					infoNode.Call("show_message", "Downloading Godot " + entry.version + $" ({entry.BuildType}) ...\n"
-					                              + downloader.SizeInMb.ToString("F2") + " MB");
+												+ downloader.SizeInMb.ToString("F2") + " MB");
 					continue;
 				}
 
