@@ -24,7 +24,7 @@ namespace GodotLauncher
 				{
 					case "OSX":
 						return mac;
-					case "X11":
+					case "Linux":
 						return linux;
 					case "Windows":
 						return win;

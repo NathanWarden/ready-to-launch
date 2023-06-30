@@ -161,7 +161,7 @@ namespace GodotLauncher
 			filePath = "\"" + filePath + "\"";
 			switch (OS.GetName())
 			{
-				case "X11":
+				case "Linux":
 					System.Diagnostics.Process.Start("xdg-open", filePath);
 					break;
 				case "Windows":
