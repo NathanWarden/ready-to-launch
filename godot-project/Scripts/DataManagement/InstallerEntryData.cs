@@ -22,7 +22,7 @@ namespace GodotLauncher
 			{
 				switch (DataPaths.GetPlatformName())
 				{
-					case "OSX":
+					case "macOS":
 						return mac;
 					case "Linux":
 						return linux;

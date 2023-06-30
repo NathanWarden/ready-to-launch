@@ -1,5 +1,6 @@
 //#define PRINT_DEBUG
 
+using System;
 using System.IO;
 using Godot;
 using Mono.Unix;
@@ -168,12 +169,11 @@ namespace GodotLauncher
 					string argument = "/select, " + filePath;
 					System.Diagnostics.Process.Start("explorer.exe", argument);
 					break;
-				case "OSX":
+				case "macOS":
 					System.Diagnostics.Process.Start("open", filePath);
 					break;
 				default:
-					GD.Print(OS.GetName() + " not implemented!");
-					break;
+					throw new Exception("OS not defined! " + OS.GetName());
 			}
 		}
 	}
