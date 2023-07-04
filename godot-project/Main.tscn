@@ -367,9 +367,9 @@ text = "Platform"
 item_count = 3
 popup/item_0/text = "Windows"
 popup/item_0/id = 0
-popup/item_1/text = "OSX"
+popup/item_1/text = "macOS"
 popup/item_1/id = 1
-popup/item_2/text = "X11"
+popup/item_2/text = "Linux"
 popup/item_2/id = 2
 script = SubResource("1")
 
