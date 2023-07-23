@@ -70,34 +70,22 @@ public static class FileHelper
 	}
 
 
-	public static bool FileExists(string path)
-	{
-		return FileAccess.FileExists(path);
-	}
+	public static bool FileExists(string path) => FileAccess.FileExists(path);
 
 
-	public static string ReadUserText(string path)
-	{
-		return ReadAllText(PathCombine(BasePath, path));
-	}
+	public static string ReadUserText(string path) =>
+		ReadAllText(PathCombine(BasePath, path));
 
 
-	public static void WriteUserText(string path, string json)
-	{
+	public static void WriteUserText(string path, string json) =>
 		WriteAllText(PathCombine(BasePath, path), json);
-	}
 
 
-	public static bool UserFileExists(string path)
-	{
-		return FileExists(PathCombine(BasePath, path));
-	}
+	public static bool UserFileExists(string path) =>
+		FileExists(PathCombine(BasePath, path));
 
 
-	public static void Delete(string path)
-	{
-		GD.Print("*********** Delete file!");
-	}
+	public static void Delete(string path) => GD.Print("*********** Delete file!");
 
 
 	private static void CreateDirectoryForUser(string directory)

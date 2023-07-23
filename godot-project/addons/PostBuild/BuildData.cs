@@ -19,8 +19,6 @@ public class BuildData
 	}
 
 
-	public void Save()
-	{
+	public void Save() =>
 		FileHelper.WriteAllText(BuildDataPath, JsonConvert.SerializeObject(this, Formatting.Indented));
-	}
 }

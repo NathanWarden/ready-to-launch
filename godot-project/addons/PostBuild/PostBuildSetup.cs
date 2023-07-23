@@ -14,9 +14,6 @@ public partial class PostBuildSetup : EditorPlugin
 	}
 
 
-	public override void _ExitTree()
-	{
-		RemoveExportPlugin(buildPlugin);
-	}
+	public override void _ExitTree() => RemoveExportPlugin(buildPlugin);
 }
 #endif

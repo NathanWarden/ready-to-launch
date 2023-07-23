@@ -29,26 +29,15 @@ public static class DataBuilder
 	}
 
 
-	public static string GetProjectListJson(List<ProjectEntryData> projects)
-	{
-		return JsonConvert.SerializeObject(projects);
-	}
+	public static string GetProjectListJson(List<ProjectEntryData> projects) =>
+		JsonConvert.SerializeObject(projects);
 
+	public static List<ProjectEntryData> LoadProjectListFromJson(string json) =>
+		JsonConvert.DeserializeObject<List<ProjectEntryData>>(json);
 
-	public static List<ProjectEntryData> LoadProjectListFromJson(string json)
-	{
-		return JsonConvert.DeserializeObject<List<ProjectEntryData>>(json);
-	}
+	public static string GetConfigJson(Config config) =>
+		JsonConvert.SerializeObject(config);
 
-
-	public static string GetConfigJson(Config config)
-	{
-		return JsonConvert.SerializeObject(config);
-	}
-
-
-	public static Config LoadConfigFromJson(string json)
-	{
-		return JsonConvert.DeserializeObject<Config>(json);
-	}
+	public static Config LoadConfigFromJson(string json) =>
+		JsonConvert.DeserializeObject<Config>(json);
 }

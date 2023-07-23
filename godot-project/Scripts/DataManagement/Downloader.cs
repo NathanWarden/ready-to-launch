@@ -48,16 +48,10 @@ public partial class Downloader : Node
 	}
 
 
-	public string ReadText()
-	{
-		return Encoding.UTF8.GetString(data);
-	}
+	public string ReadText() => Encoding.UTF8.GetString(data);
 
 
-	public byte[] ReadData()
-	{
-		return data;
-	}
+	public byte[] ReadData() => data;
 
 	public bool IsDone => done;
 	public float SizeInMb => downloader.GetDownloadedBytes() / (1024f * 1024f);

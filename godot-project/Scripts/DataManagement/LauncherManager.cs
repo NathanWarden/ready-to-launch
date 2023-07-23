@@ -295,16 +295,10 @@ public partial class LauncherManager : Control
 	}
 
 
-	void _onNewProjectPressed()
-	{
-		fileDialog.Visible = true;
-	}
+	void _onNewProjectPressed() => fileDialog.Visible = true;
 
-
-	void _onNewProjectVersionChanged(string versionKey)
-	{
+	void _onNewProjectVersionChanged(string versionKey) =>
 		newProjectVersionKey = versionKey;
-	}
 
 
 	void _onFileDialogDirSelected(string directoryPath)
@@ -376,16 +370,10 @@ public partial class LauncherManager : Control
 	string GodotVersionPath(string basePath) => Path.Combine(basePath, "godotversion.txt");
 
 
-	void _onProjectEntryPressed(string path)
-	{
-		LaunchProject(path, false);
-	}
+	void _onProjectEntryPressed(string path) => LaunchProject(path, false);
 
 
-	void _onRunProject(string path)
-	{
-		LaunchProject(path, true);
-	}
+	void _onRunProject(string path) => LaunchProject(path, true);
 
 
 	void LaunchProject(string path, bool run)
@@ -463,10 +451,8 @@ public partial class LauncherManager : Control
 		BuildProjectsList();
 	}
 
-	void _onInstallerEntryPressed(string version, string buildType)
-	{
+	void _onInstallerEntryPressed(string version, string buildType) =>
 		InstallVersion(version + buildType);
-	}
 
 	void InstallVersion(string key)
 	{

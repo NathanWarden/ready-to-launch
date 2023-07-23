@@ -112,10 +112,8 @@ public class DataPaths
 	}
 
 
-	public static void DeleteVersion(string version, string buildType)
-	{
+	public static void DeleteVersion(string version, string buildType) =>
 		Directory.Delete(Path.Combine(BasePath, GetPlatformName(), buildType, version), true);
-	}
 
 
 	public static void LaunchGodot(InstallerEntryData installerEntryData, string arguments = "")
