@@ -1,6 +1,6 @@
-using System;
 using Godot;
 using Newtonsoft.Json;
+using System;
 
 namespace GodotLauncher;
 
@@ -16,7 +16,8 @@ public class InstallerEntryData
 	[JsonIgnore] public string VersionKey => version + BuildType;
 	[JsonIgnore] public string BuildType => mono ? "mono" : "classic";
 
-	[JsonIgnore] public PlatformData PlatformData
+	[JsonIgnore]
+	public PlatformData PlatformData
 	{
 		get
 		{
@@ -24,10 +25,13 @@ public class InstallerEntryData
 			{
 				case "macOS":
 					return mac;
+
 				case "Linux":
 					return linux;
+
 				case "Windows":
 					return win;
+
 				default:
 					throw new Exception("OS not defined! " + OS.GetName());
 			}
@@ -37,7 +41,6 @@ public class InstallerEntryData
 	[JsonIgnore] public string Url => PlatformData.url;
 	[JsonIgnore] public string ExecutableName => PlatformData.executableName;
 }
-
 
 public struct PlatformData
 {

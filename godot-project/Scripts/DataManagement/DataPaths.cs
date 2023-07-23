@@ -1,9 +1,9 @@
 //#define PRINT_DEBUG
 
-using System;
-using System.IO;
 using Godot;
 using Mono.Unix;
+using System;
+using System.IO;
 using Directory = System.IO.Directory;
 using Environment = System.Environment;
 using File = System.IO.File;
@@ -13,10 +13,9 @@ namespace GodotLauncher;
 
 public class DataPaths
 {
-	static string AppDataPath => Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-	static string BasePath => Path.Combine(AppDataPath, "ReadyToLaunch");
+	private static string AppDataPath => Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+	private static string BasePath => Path.Combine(AppDataPath, "ReadyToLaunch");
 	public static string platformOverride;
-
 
 	public static string SanitizeProjectPath(string path)
 	{
@@ -28,13 +27,12 @@ public class DataPaths
 		return path;
 	}
 
-
 	public static void EnsureProjectExists(string path)
 	{
 		var filePath = Path.Combine(path, "project.godot");
-		if (!File.Exists(filePath)) File.WriteAllText(filePath, "");
+		if (!File.Exists(filePath))
+			File.WriteAllText(filePath, "");
 	}
-
 
 	public static string GetExecutablePath(InstallerEntryData installerEntryData)
 	{
@@ -46,82 +44,76 @@ public class DataPaths
 		return path;
 	}
 
-
 	public static string GetPlatformName()
 	{
-		if (!string.IsNullOrEmpty(platformOverride)) return platformOverride;
+		if (!string.IsNullOrEmpty(platformOverride))
+			return platformOverride;
 		return OS.GetName();
 	}
-
 
 	public static void WriteFile(string fileName, byte[] data)
 	{
 		var path = Path.Combine(BasePath, fileName);
-		#if PRINT_DEBUG
+#if PRINT_DEBUG
 		GD.Print("Writing: " + path);
-		#endif
+#endif
 		File.WriteAllBytes(path, data);
 	}
-
 
 	public static void WriteFile(string fileName, string data)
 	{
 		var path = Path.Combine(BasePath, fileName);
-		#if PRINT_DEBUG
+#if PRINT_DEBUG
 		GD.Print("Writing: " + path);
-		#endif
+#endif
 		File.WriteAllText(path, data);
 	}
-
 
 	public static string ReadFile(string fileName, string defaultData = null)
 	{
 		var path = Path.Combine(BasePath, fileName);
 		if (File.Exists(path))
 		{
-			#if PRINT_DEBUG
+#if PRINT_DEBUG
 			GD.Print("Reading: " + path);
-			#endif
+#endif
 			return File.ReadAllText(path);
 		}
 
-		#if PRINT_DEBUG
+#if PRINT_DEBUG
 		GD.Print("File not found: " + path);
-		#endif
+#endif
 		return defaultData;
 	}
-
 
 	public static bool ExecutableExists(InstallerEntryData installerEntryData)
 	{
 		string path = GetExecutablePath(installerEntryData);
 		bool exists = File.Exists(path);
-		#if PRINT_DEBUG
+#if PRINT_DEBUG
 		GD.Print("Checking if path exists: " + path + " exists=" + exists);
-		#endif
+#endif
 		return exists;
 	}
-
 
 	public static void ExtractArchive(string fileName, InstallerEntryData installerEntryData)
 	{
 		string source = Path.Combine(BasePath, fileName);
 		string dest = Path.Combine(BasePath, GetPlatformName(), installerEntryData.BuildType, installerEntryData.version);
-		if (!Directory.Exists(dest)) System.IO.Compression.ZipFile.ExtractToDirectory(source, dest);
+		if (!Directory.Exists(dest))
+			System.IO.Compression.ZipFile.ExtractToDirectory(source, dest);
 		File.Delete(source);
 	}
-
 
 	public static void DeleteVersion(string version, string buildType) =>
 		Directory.Delete(Path.Combine(BasePath, GetPlatformName(), buildType, version), true);
 
-
 	public static void LaunchGodot(InstallerEntryData installerEntryData, string arguments = "")
 	{
 		string path = GetExecutablePath(installerEntryData);
-		#if PRINT_DEBUG
+#if PRINT_DEBUG
 		GD.Print("Launching: " + path);
-		#endif
+#endif
 		if (!OS.GetName().Equals("Windows"))
 		{
 			var unixFile = new UnixFileInfo(path);
@@ -137,7 +129,6 @@ public class DataPaths
 		process.Start();
 	}
 
-
 	public static void CreateInstallationDirectory()
 	{
 		MoveOldInstallationDirectory("ReadyForLaunch");
@@ -145,15 +136,13 @@ public class DataPaths
 		Directory.CreateDirectory(BasePath);
 	}
 
-
-	static void MoveOldInstallationDirectory(string oldName)
+	private static void MoveOldInstallationDirectory(string oldName)
 	{
 		var oldPath = Path.Combine(AppDataPath, oldName);
 		if (!Directory.Exists(oldPath) || Directory.Exists(BasePath))
 			return;
 		Directory.Move(oldPath, BasePath);
 	}
-
 
 	public static void ShowInFolder(string filePath)
 	{
@@ -163,13 +152,16 @@ public class DataPaths
 			case "Linux":
 				System.Diagnostics.Process.Start("xdg-open", filePath);
 				break;
+
 			case "Windows":
 				string argument = "/select, " + filePath;
 				System.Diagnostics.Process.Start("explorer.exe", argument);
 				break;
+
 			case "macOS":
 				System.Diagnostics.Process.Start("open", filePath);
 				break;
+
 			default:
 				throw new Exception("OS not defined! " + OS.GetName());
 		}

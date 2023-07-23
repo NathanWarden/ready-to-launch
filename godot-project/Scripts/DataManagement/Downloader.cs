@@ -1,7 +1,5 @@
-using System.Net;
-using System.Text;
 using Godot;
-
+using System.Text;
 
 namespace GodotLauncher;
 
@@ -25,8 +23,7 @@ public partial class Downloader : Node
 		downloader.RequestCompleted += OnRequestCompleted;
 	}
 
-
-	void OnRequestCompleted(long result, long responseCode, string[] headers, byte[] body)
+	private void OnRequestCompleted(long result, long responseCode, string[] headers, byte[] body)
 	{
 		if (responseCode != (int)HttpClient.ResponseCode.Ok)
 		{
@@ -37,7 +34,6 @@ public partial class Downloader : Node
 		done = true;
 	}
 
-
 	public void Start()
 	{
 		var err = downloader.Request(url);
@@ -47,9 +43,7 @@ public partial class Downloader : Node
 		}
 	}
 
-
 	public string ReadText() => Encoding.UTF8.GetString(data);
-
 
 	public byte[] ReadData() => data;
 

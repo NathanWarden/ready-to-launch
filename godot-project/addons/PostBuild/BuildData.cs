@@ -1,5 +1,5 @@
-using System;
 using Newtonsoft.Json;
+using System;
 
 [Serializable]
 public class BuildData
@@ -10,14 +10,13 @@ public class BuildData
 	public string version;
 	public string storeFlag;
 
-
 	public static BuildData Load()
 	{
 		var json = FileHelper.ReadAllText(BuildDataPath);
-		if (string.IsNullOrEmpty(json)) return new BuildData();
+		if (string.IsNullOrEmpty(json))
+			return new BuildData();
 		return JsonConvert.DeserializeObject<BuildData>(json);
 	}
-
 
 	public void Save() =>
 		FileHelper.WriteAllText(BuildDataPath, JsonConvert.SerializeObject(this, Formatting.Indented));

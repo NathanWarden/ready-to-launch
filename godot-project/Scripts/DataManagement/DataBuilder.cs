@@ -1,7 +1,6 @@
-using System.Collections.Generic;
 using GodotLauncher;
 using Newtonsoft.Json;
-
+using System.Collections.Generic;
 
 public static class DataBuilder
 {
@@ -14,11 +13,13 @@ public static class DataBuilder
 
 	public static Dictionary<string, InstallerEntryData> LoadInstallerData(string json)
 	{
-		if (json == null) return new Dictionary<string, InstallerEntryData>();
+		if (json == null)
+			return new Dictionary<string, InstallerEntryData>();
 
 		var entries = JsonConvert.DeserializeObject<InstallerEntryData[]>(json);
 		var entriesDict = new Dictionary<string, InstallerEntryData>();
-		if (entries == null) return entriesDict;
+		if (entries == null)
+			return entriesDict;
 
 		foreach (var entry in entries)
 		{
@@ -27,7 +28,6 @@ public static class DataBuilder
 
 		return entriesDict;
 	}
-
 
 	public static string GetProjectListJson(List<ProjectEntryData> projects) =>
 		JsonConvert.SerializeObject(projects);

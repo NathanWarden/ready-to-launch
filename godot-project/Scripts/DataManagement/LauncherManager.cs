@@ -1,13 +1,12 @@
 //#define PRINT_DEBUG
 
-using System;
 using Godot;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Path = System.IO.Path;
 using File = System.IO.File;
-
+using Path = System.IO.Path;
 
 namespace GodotLauncher;
 
@@ -37,13 +36,12 @@ public partial class LauncherManager : Control
 	private const string InstallersJson = "https://raw.githubusercontent.com/NathanWarden/ready-to-launch/master/godot-project/Data/installers.json";
 	private const string LastInstallerList = "last-installers.json";
 
-	private List<ProjectEntryData> projectEntries = new ();
-	private Dictionary<string, InstallerEntryData> installerEntries = new ();
-	private Dictionary<string, InstallerEntryData> previousInstallers = new ();
-	private Dictionary<string, Downloader> downloaders = new ();
+	private List<ProjectEntryData> projectEntries = new();
+	private Dictionary<string, InstallerEntryData> installerEntries = new();
+	private Dictionary<string, InstallerEntryData> previousInstallers = new();
+	private Dictionary<string, Downloader> downloaders = new();
 
 	private Config config;
-
 
 	public override void _Ready()
 	{
@@ -84,7 +82,8 @@ public partial class LauncherManager : Control
 
 	public override void _Process(double delta)
 	{
-		if (CheckForQuit()) return;
+		if (CheckForQuit())
+			return;
 
 		if (infoNodeTimer > 0)
 		{
@@ -120,7 +119,8 @@ public partial class LauncherManager : Control
 			var downloader = dlPair.Value;
 			var entry = installerEntries[key];
 
-			if (downloader == null) continue;
+			if (downloader == null)
+				continue;
 			if (!downloader.IsDone)
 			{
 				infoNode.Call("show_message", "Downloading Godot " + entry.version + $" ({entry.BuildType}) ...\n"
@@ -196,8 +196,7 @@ public partial class LauncherManager : Control
 		preReleaseToggle.ButtonPressed = config.preReleaseToggled;
 	}
 
-
-	void BuildProjectsList()
+	private void BuildProjectsList()
 	{
 		var installers = GetInstalledVersions();
 		var installerKeysList = new List<string>();
@@ -216,7 +215,8 @@ public partial class LauncherManager : Control
 
 		projectEntries.Sort((x, y) =>
 		{
-			if (x.timestamp == y.timestamp) return 0;
+			if (x.timestamp == y.timestamp)
+				return 0;
 			return x.timestamp < y.timestamp ? 1 : -1;
 		});
 
@@ -237,27 +237,26 @@ public partial class LauncherManager : Control
 		}
 	}
 
-
-	List<InstallerEntryData> GetInstalledVersions()
+	private List<InstallerEntryData> GetInstalledVersions()
 	{
 		var results = new List<InstallerEntryData>();
 		foreach (var entry in installerEntries.Values)
 		{
 			bool installerExists = DataPaths.ExecutableExists(entry);
-			if (installerExists) results.Add(entry);
+			if (installerExists)
+				results.Add(entry);
 		}
 
 		return results;
 	}
 
-
-	void BuildLists(bool showNewInstallers)
+	private void BuildLists(bool showNewInstallers)
 	{
 		BuildInstallersList(showNewInstallers);
 		BuildProjectsList();
 	}
 
-	void BuildInstallersList(bool showNewInstallers)
+	private void BuildInstallersList(bool showNewInstallers)
 	{
 		installersEntriesNode.Call("_clear_installer_buttons");
 
@@ -281,27 +280,28 @@ public partial class LauncherManager : Control
 		}
 	}
 
-
-	IEnumerable<InstallerEntryData> GetFilteredEntries()
+	private IEnumerable<InstallerEntryData> GetFilteredEntries()
 	{
 		foreach (var entry in installerEntries.Values)
 		{
-			if (config.installedOnlyToggled && !DataPaths.ExecutableExists(entry)) continue;
-			if (!config.preReleaseToggled && entry.preRelease) continue;
-			if (!config.monoToggled && entry.mono) continue;
-			if (!config.classicToggled && !entry.mono) continue;
+			if (config.installedOnlyToggled && !DataPaths.ExecutableExists(entry))
+				continue;
+			if (!config.preReleaseToggled && entry.preRelease)
+				continue;
+			if (!config.monoToggled && entry.mono)
+				continue;
+			if (!config.classicToggled && !entry.mono)
+				continue;
 			yield return entry;
 		}
 	}
 
+	private void _onNewProjectPressed() => fileDialog.Visible = true;
 
-	void _onNewProjectPressed() => fileDialog.Visible = true;
-
-	void _onNewProjectVersionChanged(string versionKey) =>
+	private void _onNewProjectVersionChanged(string versionKey) =>
 		newProjectVersionKey = versionKey;
 
-
-	void _onFileDialogDirSelected(string directoryPath)
+	private void _onFileDialogDirSelected(string directoryPath)
 	{
 		if (string.IsNullOrEmpty(newProjectVersionKey))
 		{
@@ -326,8 +326,7 @@ public partial class LauncherManager : Control
 		LaunchProject(directoryPath, false);
 	}
 
-
-	void _onFilesDropped(string[] files)
+	private void _onFilesDropped(string[] files)
 	{
 		for (int i = 0; i < files.Length; i++)
 		{
@@ -352,31 +351,25 @@ public partial class LauncherManager : Control
 		BuildProjectsList();
 	}
 
-
-	void SaveConfig()
+	private void SaveConfig()
 	{
 		var json = DataBuilder.GetConfigJson(config);
 		DataPaths.WriteFile(ConfigFileName, json);
 	}
 
-
-	void SaveProjectsList()
+	private void SaveProjectsList()
 	{
 		var json = DataBuilder.GetProjectListJson(projectEntries);
 		DataPaths.WriteFile(ProjectsFileName, json);
 	}
 
+	private string GodotVersionPath(string basePath) => Path.Combine(basePath, "godotversion.txt");
 
-	string GodotVersionPath(string basePath) => Path.Combine(basePath, "godotversion.txt");
+	private void _onProjectEntryPressed(string path) => LaunchProject(path, false);
 
+	private void _onRunProject(string path) => LaunchProject(path, true);
 
-	void _onProjectEntryPressed(string path) => LaunchProject(path, false);
-
-
-	void _onRunProject(string path) => LaunchProject(path, true);
-
-
-	void LaunchProject(string path, bool run)
+	private void LaunchProject(string path, bool run)
 	{
 		for (int i = 0; i < projectEntries.Count; i++)
 		{
@@ -384,9 +377,9 @@ public partial class LauncherManager : Control
 			{
 				var project = projectEntries[i];
 
-				#if PRINT_DEBUG
+#if PRINT_DEBUG
 				GD.Print("Launch " + path);
-				#endif
+#endif
 
 				if (!run)
 				{
@@ -411,8 +404,7 @@ public partial class LauncherManager : Control
 		}
 	}
 
-
-	void _onProjectVersionChanged(string path, string versionKey)
+	private void _onProjectVersionChanged(string path, string versionKey)
 	{
 		foreach (var entry in projectEntries)
 		{
@@ -426,8 +418,7 @@ public partial class LauncherManager : Control
 		SaveProjectsList();
 	}
 
-
-	void _onShowInFolder(string path)
+	private void _onShowInFolder(string path)
 	{
 		var fileInfo = new FileInfo(path);
 		if (fileInfo.Exists)
@@ -437,12 +428,12 @@ public partial class LauncherManager : Control
 		DataPaths.ShowInFolder(path);
 	}
 
-
-	void _onProjectDeletePressed(string path)
+	private void _onProjectDeletePressed(string path)
 	{
 		for (int i = 0; i < projectEntries.Count; i++)
 		{
-			if (!projectEntries[i].path.Equals(path)) continue;
+			if (!projectEntries[i].path.Equals(path))
+				continue;
 			projectEntries.RemoveAt(i);
 			break;
 		}
@@ -451,22 +442,22 @@ public partial class LauncherManager : Control
 		BuildProjectsList();
 	}
 
-	void _onInstallerEntryPressed(string version, string buildType) =>
+	private void _onInstallerEntryPressed(string version, string buildType) =>
 		InstallVersion(version + buildType);
 
-	void InstallVersion(string key)
+	private void InstallVersion(string key)
 	{
 		var installerEntry = installerEntries[key];
 
-		if (LaunchInstaller(installerEntry) || downloaders.ContainsKey(key)) return;
+		if (LaunchInstaller(installerEntry) || downloaders.ContainsKey(key))
+			return;
 		var entry = installerEntries[key];
 		downloaders[key] = new Downloader(entry.Url, this);
 		downloaders[key].Start();
 		infoNode.Call("show_message", "Downloading Godot " + installerEntry.version + $" ({installerEntry.BuildType}) ...");
 	}
 
-
-	bool LaunchInstaller(InstallerEntryData installerEntry)
+	private bool LaunchInstaller(InstallerEntryData installerEntry)
 	{
 		bool installerExists = DataPaths.ExecutableExists(installerEntry);
 		if (installerExists)
@@ -479,57 +470,52 @@ public partial class LauncherManager : Control
 		return false;
 	}
 
-
-	void _onInstallerDeletePressed(string version, string buildType)
+	private void _onInstallerDeletePressed(string version, string buildType)
 	{
 		DataPaths.DeleteVersion(version, buildType);
 		BuildLists(false);
 	}
 
-
-	void _onInstalledOnlyToggled(bool state)
+	private void _onInstalledOnlyToggled(bool state)
 	{
 		config.installedOnlyToggled = state;
 		BuildInstallersList(false);
 		SaveConfig();
 	}
 
-
-	void _onClassicToggled(bool state)
+	private void _onClassicToggled(bool state)
 	{
 		config.classicToggled = state;
 		BuildInstallersList(false);
 		SaveConfig();
 	}
 
-
-	void _onMonoToggled(bool state)
+	private void _onMonoToggled(bool state)
 	{
 		config.monoToggled = state;
 		BuildInstallersList(false);
 		SaveConfig();
 	}
 
-
-	void _onPreReleaseToggled(bool state)
+	private void _onPreReleaseToggled(bool state)
 	{
 		config.preReleaseToggled = state;
 		BuildInstallersList(false);
 		SaveConfig();
 	}
 
-
-	void _onDebugOsSelected(string os)
+	private void _onDebugOsSelected(string os)
 	{
 		DataPaths.platformOverride = os;
 		BuildInstallersList(false);
 	}
 
-	void _onDownloadAllPressed()
+	private void _onDownloadAllPressed()
 	{
 		foreach (var entry in installerEntries.Values)
 		{
-			if (DataPaths.ExecutableExists(entry) || string.IsNullOrEmpty(entry.Url)) continue;
+			if (DataPaths.ExecutableExists(entry) || string.IsNullOrEmpty(entry.Url))
+				continue;
 			var key = entry.VersionKey;
 			downloaders[key] = new Downloader(entry.Url, this);
 			downloaders[key].Start();
