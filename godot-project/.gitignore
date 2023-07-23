@@ -9,6 +9,7 @@ data_*/
 .idea/
 *.DotSettings.user
 mono_crash*.json
+.vs/
 
 # Misc ignores
 *.old
