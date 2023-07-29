@@ -1,6 +1,6 @@
+using Godot;
 using System.Collections.Generic;
 using System.Text;
-using Godot;
 using Path = System.IO.Path;
 
 public static class FileHelper
@@ -9,13 +9,11 @@ public static class FileHelper
 	public static string CachePath => PathCombine(BasePath, "Cache");
 	public const string InternalDataPath = "res://Data/";
 
-
 	static FileHelper()
 	{
 		CreateDirectoryForUser("Data");
 		CreateDirectoryForUser("Cache");
 	}
-
 
 	public static string PathCombine(params string[] path)
 	{
@@ -39,16 +37,16 @@ public static class FileHelper
 		{
 			if (!string.IsNullOrEmpty(path[i]) && path[i][0] != '/')
 			{
-				if (addNext) result.Append("/");
+				if (addNext)
+					result.Append("/");
 				result.Append(path[i]);
 
-				addNext = path[i][path[i].Length-1] != '/';
+				addNext = path[i][path[i].Length - 1] != '/';
 			}
 		}
 
 		return result.ToString();
 	}
-
 
 	public static string ReadAllText(string path)
 	{
@@ -61,7 +59,6 @@ public static class FileHelper
 		return json;
 	}
 
-
 	public static void WriteAllText(string path, string json)
 	{
 		var file = FileAccess.Open(path, FileAccess.ModeFlags.Write);
@@ -69,36 +66,18 @@ public static class FileHelper
 		file.Close();
 	}
 
+	public static bool FileExists(string path) => FileAccess.FileExists(path);
 
-	public static bool FileExists(string path)
-	{
-		return FileAccess.FileExists(path);
-	}
+	public static string ReadUserText(string path) =>
+		ReadAllText(PathCombine(BasePath, path));
 
-
-	public static string ReadUserText(string path)
-	{
-		return ReadAllText(PathCombine(BasePath, path));
-	}
-
-
-	public static void WriteUserText(string path, string json)
-	{
+	public static void WriteUserText(string path, string json) =>
 		WriteAllText(PathCombine(BasePath, path), json);
-	}
 
+	public static bool UserFileExists(string path) =>
+		FileExists(PathCombine(BasePath, path));
 
-	public static bool UserFileExists(string path)
-	{
-		return FileExists(PathCombine(BasePath, path));
-	}
-
-
-	public static void Delete(string path)
-	{
-		GD.Print("*********** Delete file!");
-	}
-
+	public static void Delete(string path) => GD.Print("*********** Delete file!");
 
 	private static void CreateDirectoryForUser(string directory)
 	{

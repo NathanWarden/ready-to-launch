@@ -1,9 +1,8 @@
-namespace GodotLauncher
+namespace GodotLauncher;
+
+public class ProjectEntryData
 {
-	public class ProjectEntryData
-	{
-		public string path;
-		public string versionKey;
-		public long timestamp;
-	}
+	public string path;
+	public string versionKey;
+	public long timestamp;
 }

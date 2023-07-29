@@ -2,9 +2,8 @@ using Godot;
 
 public partial class PreBuildProcess : SceneTree
 {
-	const string ConfigPath = "res://export_presets.cfg";
-	const string AndroidConfigSection = "preset.4.options";
-
+	private const string ConfigPath = "res://export_presets.cfg";
+	private const string AndroidConfigSection = "preset.4.options";
 
 	public override void _Initialize()
 	{
@@ -28,7 +27,6 @@ public partial class PreBuildProcess : SceneTree
 
 		Quit();
 	}
-
 
 	private void UpdateBuildNumber()
 	{
