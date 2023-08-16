@@ -1853,6 +1853,40 @@
     }
   },
   {
+    "version": "3.6-beta3",
+    "mono": true,
+    "preRelease": true,
+    "linux": {
+      "url": "https://downloads.tuxfamily.org/godotengine/3.6/beta3/mono/Godot_v3.6-beta3_mono_x11_64.zip",
+      "executableName": "Godot_v3.6-beta3_mono_x11_64/Godot_v3.6-beta3_mono_x11.64"
+    },
+    "mac": {
+      "url": "https://downloads.tuxfamily.org/godotengine/3.6/beta3/mono/Godot_v3.6-beta3_mono_osx.universal.zip",
+      "executableName": "Godot_mono.app/Contents/MacOS/Godot"
+    },
+    "win": {
+      "url": "https://downloads.tuxfamily.org/godotengine/3.6/beta3/mono/Godot_v3.6-beta3_mono_win64.zip",
+      "executableName": "Godot_v3.6-beta3_mono_win64/Godot_v3.6-beta3_mono_win64.exe"
+    }
+  },
+  {
+    "version": "3.6-beta3",
+    "mono": false,
+    "preRelease": true,
+    "linux": {
+      "url": "https://downloads.tuxfamily.org/godotengine/3.6/beta3/Godot_v3.6-beta3_x11.64.zip",
+      "executableName": "Godot_v3.6-beta3_x11.64"
+    },
+    "mac": {
+      "url": "https://downloads.tuxfamily.org/godotengine/3.6/beta3/Godot_v3.6-beta3_osx.universal.zip",
+      "executableName": "Godot.app/Contents/MacOS/Godot"
+    },
+    "win": {
+      "url": "https://downloads.tuxfamily.org/godotengine/3.6/beta3/Godot_v3.6-beta3_win64.exe.zip",
+      "executableName": "Godot_v3.6-beta3_win64.exe"
+    }
+  },
+  {
     "version": "3.6-beta2",
     "mono": true,
     "preRelease": true,
