@@ -96,7 +96,6 @@ layout_mode = 2
 text = "Installers"
 
 [node name="CustomInstallersButton" type="Button" parent="TabPanel/VBoxContainer_Top"]
-visible = false
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 text = "Custom Installers"
@@ -400,7 +399,6 @@ layout_mode = 2
 text = "Pre-Release"
 
 [node name="CustomInstallersPanel" type="Panel" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -493,9 +491,9 @@ visible = false
 layout_mode = 1
 
 [node name="FileDialog" type="FileDialog" parent="."]
+mode = 3
 initial_position = 1
 size = Vector2i(1136, 610)
-mode = 3
 access = 2
 
 [connection signal="pressed" from="TabPanel/VBoxContainer_Top/ProjectsButton" to="TabPanel" method="_onProjectsButtonPressed"]
