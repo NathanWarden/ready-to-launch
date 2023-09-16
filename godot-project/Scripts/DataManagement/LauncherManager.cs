@@ -233,7 +233,7 @@ namespace GodotLauncher
 					buildType = installer.BuildType;
 				}
 
-				projectsEntriesNode.Call("_add_project_button", entry.path, version, buildType, false, installerKeys, installerNames);
+				projectsEntriesNode.Call("_add_project_button", entry.path, version, buildType, false, installerKeys, installerNames, Directory.Exists(entry.path));
 			}
 		}
 

@@ -31,11 +31,13 @@ func _new_installer_available(version:String, buildType:String):
 	label.text += "New installer available: " + version + " (" + buildType + ")"
 
 
-func _add_project_button(path:String, version:String, buildType:String, favorite:bool, installerKeys:PackedStringArray, installerNames:PackedStringArray):
+func _add_project_button(path:String, version:String, buildType:String, favorite:bool, installerKeys:PackedStringArray, installerNames:PackedStringArray, exists:bool):
 	var newEntry = entry.duplicate()
 	self.add_child(newEntry)
 	newEntry.visible = true
-	newEntry.get_node("Label").text = get_adjusted_path(path)
+	var label := newEntry.get_node("Label")
+	label.text = get_adjusted_path(path)
+	if !exists: label.modulate.a = 0.5
 	newEntry.get_node("ProjectButton").set_data(path)
 	newEntry.get_node("ProjectButton").tooltip_text = path
 	var key = path
